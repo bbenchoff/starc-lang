@@ -170,6 +170,48 @@
             margin-top: 0;
         }
 
+        /* Part headers with logos */
+        .starc-part-header {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 25px;
+            align-items: center;
+            margin-top: 60px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #0066cc;
+        }
+
+        .starc-part-header:first-of-type {
+            margin-top: 0;
+        }
+
+        .starc-part-header img {
+            width: 100%;
+            height: auto;
+            border: none;
+            margin: 0;
+        }
+
+        .starc-part-header h1 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin: 0;
+            border: none;
+            padding: 0;
+        }
+
+        @media (max-width: 768px) {
+            .starc-part-header {
+                grid-template-columns: 70px 1fr;
+                gap: 15px;
+            }
+
+            .starc-part-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+
         .content h2 {
             font-size: 1.8rem;
             color: #1a1a1a;
@@ -458,8 +500,9 @@
                 cleanMarkdown = cleanMarkdown.replace(/<div class="tm-article" markdown="1">\n/, '');
                 cleanMarkdown = cleanMarkdown.replace(/<div class="starc-header">[\s\S]*?<\/div>\n/, '');
 
-                // Convert part headers with logos to plain H1s
-                cleanMarkdown = cleanMarkdown.replace(/---\s*\n\s*<div class="starc-part-header">\s*<img[^>]*>\s*<h1>(.*?)<\/h1>\s*<\/div>\s*\n\s*---/g, '# $1');
+                // Remove the --- dividers around part headers
+                cleanMarkdown = cleanMarkdown.replace(/---\s*\n(\s*<div class="starc-part-header">)/g, '$1');
+                cleanMarkdown = cleanMarkdown.replace(/(<\/div>)\s*\n---/g, '$1');
 
                 // Parse markdown
                 const html = marked.parse(cleanMarkdown);
@@ -474,12 +517,16 @@
 
                 document.getElementById('content').innerHTML = docHeader + html;
 
-                // Fix image URLs - rewrite paths to point to bbenchoff.github.io
+                // Fix image URLs
                 const images = document.querySelectorAll('.content img');
                 images.forEach(img => {
                     const src = img.getAttribute('src');
-                    if (src && src.startsWith('/images/')) {
-                        // Rewrite /images/ paths to bbenchoff.github.io
+                    // Part header logos - use local logo
+                    if (img.closest('.starc-part-header')) {
+                        img.src = '/img/logo2.svg';
+                    }
+                    // Content images - rewrite paths to bbenchoff.github.io
+                    else if (src && src.startsWith('/images/')) {
                         img.src = `https://bbenchoff.github.io${src}`;
                     }
                 });
@@ -567,6 +614,11 @@
                     heading.id = id;
                 }
 
+                // For part headers, also add ID to parent div for better scrolling
+                if (heading.closest('.starc-part-header')) {
+                    heading.closest('.starc-part-header').id = heading.id + '-header';
+                }
+
                 const li = document.createElement('li');
                 const a = document.createElement('a');
                 a.href = `#${heading.id}`;
@@ -575,7 +627,8 @@
 
                 a.addEventListener('click', (e) => {
                     e.preventDefault();
-                    heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    const target = heading.closest('.starc-part-header') || heading;
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     window.history.pushState(null, '', `#${heading.id}`);
 
                     // Close mobile menu
