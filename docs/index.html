@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StarC Language Specification</title>
+    <link rel="icon" type="image/svg+xml" href="/img/logo2.svg">
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Bahnschrift', 'DIN Alternate', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #e8e8e8;
+        }
+
+        header {
+            background: #2a2a2a;
+            border-bottom: 3px solid #0066cc;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-small {
+            height: 40px;
+            width: auto;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+
+        header a {
+            color: #0066cc;
+            text-decoration: none;
+            margin-left: auto;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        header a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            display: flex;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: #fff;
+            border-right: 2px solid #333;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 1rem;
+            color: #0066cc;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toc {
+            list-style: none;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        .toc a {
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            padding: 4px 0;
+        }
+
+        .toc a:hover {
+            color: #0066cc;
+        }
+
+        .toc .toc-h2 {
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        .toc .toc-h3 {
+            padding-left: 15px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .content {
+            margin-left: 280px;
+            padding: 40px;
+            max-width: 900px;
+            background: #fff;
+            min-height: 100%;
+            flex: 1;
+        }
+
+        .content h1 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 15px;
+        }
+
+        .content h2 {
+            font-size: 1.8rem;
+            color: #1a1a1a;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+        }
+
+        .content h3 {
+            font-size: 1.3rem;
+            color: #0066cc;
+            margin-top: 35px;
+            margin-bottom: 15px;
+        }
+
+        .content h4 {
+            font-size: 1.1rem;
+            color: #333;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .content pre {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 20px 0;
+            border: 2px solid #333;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+
+        .content code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .content pre code {
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        .content ul, .content ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .content li {
+            margin-bottom: 8px;
+        }
+
+        .content blockquote {
+            border-left: 4px solid #0066cc;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #555;
+            font-style: italic;
+        }
+
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border: 2px solid #333;
+        }
+
+        .content th, .content td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .content th {
+            background: #2a2a2a;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .content a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .content a:hover {
+            text-decoration: underline;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0066cc;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 200;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+                z-index: 150;
+                width: 80%;
+                max-width: 300px;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            header h1 {
+                font-size: 1.2rem;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/"><img src="/img/logo2.svg" alt="StarC" class="logo-small"></a>
+        <h1>STARC SPECIFICATION</h1>
+        <a href="/">HOME</a>
+    </header>
+
+    <div class="container">
+        <nav class="sidebar" id="sidebar">
+            <h2>Contents</h2>
+            <ul class="toc" id="toc">
+                <li class="loading">Loading...</li>
+            </ul>
+        </nav>
+
+        <main class="content" id="content">
+            <div class="loading">Loading documentation...</div>
+        </main>
+    </div>
+
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+
+    <script>
+        // Mobile menu toggle
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 &&
+                sidebar.classList.contains('open') &&
+                !sidebar.contains(e.target) &&
+                e.target !== mobileMenuBtn) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Fetch and render the markdown
+        async function loadDocs() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/bbenchoff/bbenchoff.github.io/main/pages/StarC.md');
+                const markdown = await response.text();
+
+                // Remove frontmatter and style block from markdown
+                let cleanMarkdown = markdown.replace(/^---[\s\S]*?---\n/, '');
+                cleanMarkdown = cleanMarkdown.replace(/<style>[\s\S]*?<\/style>\n/, '');
+
+                // Parse markdown
+                const html = marked.parse(cleanMarkdown);
+                document.getElementById('content').innerHTML = html;
+
+                // Generate TOC
+                generateTOC();
+
+                // Handle hash navigation
+                if (window.location.hash) {
+                    setTimeout(() => {
+                        const element = document.querySelector(window.location.hash);
+                        if (element) element.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                }
+            } catch (error) {
+                document.getElementById('content').innerHTML = '<div class="loading">Error loading documentation. Please try again later.</div>';
+                console.error('Error loading docs:', error);
+            }
+        }
+
+        function generateTOC() {
+            const content = document.getElementById('content');
+            const headings = content.querySelectorAll('h2, h3');
+            const toc = document.getElementById('toc');
+
+            toc.innerHTML = '';
+
+            headings.forEach((heading, index) => {
+                // Generate ID if not present
+                if (!heading.id) {
+                    const id = heading.textContent
+                        .toLowerCase()
+                        .replace(/[^\w\s-]/g, '')
+                        .replace(/\s+/g, '-')
+                        .replace(/--+/g, '-');
+                    heading.id = id;
+                }
+
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${heading.id}`;
+                a.textContent = heading.textContent;
+                a.className = `toc-${heading.tagName.toLowerCase()}`;
+
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    window.history.pushState(null, '', `#${heading.id}`);
+
+                    // Close mobile menu
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('open');
+                    }
+                });
+
+                li.appendChild(a);
+                toc.appendChild(li);
+            });
+        }
+
+        // Load docs on page load
+        loadDocs();
+    </script>
+</body>
+</html>
