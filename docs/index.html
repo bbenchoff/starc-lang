@@ -103,13 +103,24 @@
             color: #0066cc;
         }
 
+        .toc .toc-h1 {
+            font-weight: 700;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        .toc .toc-h1 a {
+            color: #0066cc;
+        }
+
         .toc .toc-h2 {
             font-weight: 700;
             margin-top: 12px;
+            padding-left: 10px;
         }
 
         .toc .toc-h3 {
-            padding-left: 15px;
+            padding-left: 25px;
             font-size: 0.85rem;
             color: #666;
         }
@@ -183,8 +194,8 @@
         }
 
         .content pre {
-            background: #1a1a1a;
-            color: #e0e0e0;
+            background: #f5f5f5;
+            color: #1a1a1a;
             padding: 20px;
             overflow-x: auto;
             font-size: 0.9rem;
@@ -196,10 +207,11 @@
 
         .content code {
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            background: #f0f0f0;
+            background: #e8e8e8;
             padding: 2px 6px;
             border-radius: 3px;
             font-size: 0.9em;
+            color: #1a1a1a;
         }
 
         .content pre code {
@@ -259,6 +271,58 @@
             display: block;
             margin: 20px 0;
             border: 2px solid #333;
+        }
+
+        /* Collapsible code blocks */
+        .code-block-wrapper.collapsible {
+            margin: 20px 0;
+            border: 2px solid #333;
+            overflow: hidden;
+        }
+
+        .code-block-wrapper.collapsible .code-block-header {
+            background: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .code-block-wrapper.collapsible .code-block-header:hover {
+            background: #0052a3;
+        }
+
+        .code-block-wrapper.collapsible .code-block-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .code-block-wrapper.collapsible .code-block-toggle {
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        .code-block-wrapper.collapsible .code-block-content {
+            display: none;
+            max-height: 500px;
+            overflow: auto;
+        }
+
+        .code-block-wrapper.collapsible .code-block-content.expanded {
+            display: block;
+        }
+
+        .code-block-wrapper.collapsible .code-block-content pre {
+            margin: 0;
+            border: none;
+            border-radius: 0;
         }
 
         .mobile-menu-btn {
@@ -384,6 +448,8 @@
                 cleanMarkdown = cleanMarkdown.replace(/<div class="tm-layout">[\s\S]*?<\/aside>\n/m, '');
                 cleanMarkdown = cleanMarkdown.replace(/<div class="tm-article" markdown="1">\n/, '');
                 cleanMarkdown = cleanMarkdown.replace(/<div class="starc-header">[\s\S]*?<\/div>\n/, '');
+                // Remove part headers with logos (e.g., "Part I: The Machine")
+                cleanMarkdown = cleanMarkdown.replace(/---\n\s*<div class="starc-part-header">[\s\S]*?<\/div>\s*\n---\n/g, '');
 
                 // Parse markdown
                 const html = marked.parse(cleanMarkdown);
@@ -408,6 +474,9 @@
                     }
                 });
 
+                // Process collapsible code blocks
+                processCollapsibleCodeBlocks();
+
                 // Generate TOC
                 generateTOC();
 
@@ -424,14 +493,60 @@
             }
         }
 
+        function processCollapsibleCodeBlocks() {
+            const content = document.getElementById('content');
+            const htmlContent = content.innerHTML;
+
+            // Find all <!-- COLLAPSIBLE --> ... code block ... <!-- /COLLAPSIBLE --> patterns
+            const collapsiblePattern = /<!--\s*COLLAPSIBLE\s*-->\s*(<pre><code[^>]*>[\s\S]*?<\/code><\/pre>)\s*<!--\s*\/COLLAPSIBLE\s*-->/gi;
+
+            let processedContent = htmlContent.replace(collapsiblePattern, (match, codeBlock) => {
+                // Extract the code content for the title
+                const codeMatch = codeBlock.match(/<code[^>]*>([\s\S]*?)<\/code>/);
+                const firstLine = codeMatch ? codeMatch[1].trim().split('\n')[0].substring(0, 60) : 'Code Example';
+
+                return `
+                    <div class="code-block-wrapper collapsible">
+                        <div class="code-block-header">
+                            <span class="code-block-title">Code Example</span>
+                            <span class="code-block-toggle">Show Code</span>
+                        </div>
+                        <div class="code-block-content">
+                            ${codeBlock}
+                        </div>
+                    </div>
+                `;
+            });
+
+            content.innerHTML = processedContent;
+
+            // Add click handlers to toggle buttons
+            const headers = content.querySelectorAll('.code-block-header');
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    const wrapper = header.closest('.code-block-wrapper');
+                    const content = wrapper.querySelector('.code-block-content');
+                    const toggle = wrapper.querySelector('.code-block-toggle');
+
+                    content.classList.toggle('expanded');
+                    toggle.textContent = content.classList.contains('expanded') ? 'Hide Code' : 'Show Code';
+                });
+            });
+        }
+
         function generateTOC() {
             const content = document.getElementById('content');
-            const headings = content.querySelectorAll('h2, h3');
+            const headings = content.querySelectorAll('h1, h2, h3');
             const toc = document.getElementById('toc');
 
             toc.innerHTML = '';
 
             headings.forEach((heading, index) => {
+                // Skip the doc header h1
+                if (heading.closest('.doc-header')) {
+                    return;
+                }
+
                 // Generate ID if not present
                 if (!heading.id) {
                     const id = heading.textContent
