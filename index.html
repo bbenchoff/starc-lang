@@ -12,202 +12,277 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f9f9f9;
+            font-family: 'Courier New', 'Courier', monospace;
+            line-height: 1.5;
+            color: #1a1a1a;
+            background: #e8e8e8;
+        }
+
+        header {
+            background: #2a2a2a;
+            border-bottom: 3px solid #0066cc;
+            padding: 20px 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .header-text h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+
+        .header-text p {
+            font-size: 0.9rem;
+            color: #999;
+            margin-top: 4px;
         }
 
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
+            background: #1a1a1a;
+            border-bottom: 2px solid #333;
+            color: #fff;
+            padding: 40px 20px;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #0066cc;
+            font-weight: 700;
         }
 
         .hero p {
-            font-size: 1.5rem;
-            margin-bottom: 40px;
-            opacity: 0.95;
-        }
-
-        .hero .tagline {
             font-size: 1.1rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-            font-weight: 500;
+            margin-bottom: 10px;
+            color: #ccc;
         }
 
         .cta {
-            display: inline-flex;
-            gap: 20px;
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
             flex-wrap: wrap;
-            justify-content: center;
         }
 
         .btn {
             display: inline-block;
-            padding: 15px 35px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 700;
             text-decoration: none;
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 2px solid;
+            font-family: 'Courier New', 'Courier', monospace;
         }
 
         .btn-primary {
-            background: white;
-            color: #667eea;
+            background: #0066cc;
+            color: #fff;
+            border-color: #0066cc;
+        }
+
+        .btn-primary:hover {
+            background: #0052a3;
+            border-color: #0052a3;
         }
 
         .btn-secondary {
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: 2px solid white;
+            background: transparent;
+            color: #0066cc;
+            border-color: #0066cc;
+        }
+
+        .btn-secondary:hover {
+            background: #0066cc;
+            color: #fff;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 40px 20px;
         }
 
         .section {
-            margin-bottom: 80px;
+            margin-bottom: 60px;
         }
 
         .section h2 {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .section-intro {
+            font-size: 1.05rem;
+            color: #333;
             margin-bottom: 30px;
-            text-align: center;
-            color: #2d3748;
+            line-height: 1.6;
         }
 
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2px;
+            background: #333;
+            border: 2px solid #333;
         }
 
         .feature {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .feature:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+            background: #fff;
+            padding: 20px;
         }
 
         .feature h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #0066cc;
+            font-weight: 700;
         }
 
         .feature p {
-            color: #555;
-            font-size: 1.05rem;
-        }
-
-        .code-example {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
-            margin-top: 40px;
-        }
-
-        pre {
-            background: #2d3748;
-            color: #f7fafc;
-            padding: 25px;
-            border-radius: 8px;
-            overflow-x: auto;
+            color: #333;
             font-size: 0.95rem;
             line-height: 1.5;
         }
 
-        code {
-            font-family: 'Courier New', monospace;
+        .code-example {
+            background: #fff;
+            border: 2px solid #333;
+            padding: 0;
+            margin-top: 30px;
         }
 
-        .example-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #2d3748;
+        .example-header {
+            background: #2a2a2a;
+            color: #fff;
+            padding: 10px 20px;
+            border-bottom: 2px solid #0066cc;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        pre {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        code {
+            font-family: 'Courier New', 'Courier', monospace;
+        }
+
+        .comparison {
+            background: #fff;
+            border: 2px solid #333;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .comparison p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .comparison p:last-child {
+            margin-bottom: 0;
+        }
+
+        .comparison strong {
+            color: #0066cc;
         }
 
         footer {
-            background: #2d3748;
-            color: white;
+            background: #2a2a2a;
+            border-top: 3px solid #0066cc;
+            color: #999;
             text-align: center;
-            padding: 40px 20px;
-            margin-top: 80px;
+            padding: 30px 20px;
+            margin-top: 60px;
         }
 
         footer a {
-            color: #a0aec0;
+            color: #0066cc;
             text-decoration: none;
         }
 
         footer a:hover {
-            color: white;
+            text-decoration: underline;
         }
 
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+            .header-text h1 {
+                font-size: 1.5rem;
             }
-            .hero p {
-                font-size: 1.2rem;
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+            .features {
+                grid-template-columns: 1fr;
             }
             .cta {
                 flex-direction: column;
-                align-items: center;
+            }
+            .btn {
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="header-content">
+            <img src="/img/logo2.svg" alt="StarC Logo" class="logo">
+            <div class="header-text">
+                <h1>STARC</h1>
+                <p>DATA-PARALLEL PROGRAMMING FOR HYPERCUBES</p>
+            </div>
+        </div>
+    </header>
+
     <div class="hero">
-        <h1>StarC</h1>
-        <p>Write once. Run on 4,096 processors.</p>
-        <div class="tagline">A data-parallel language for hypercube machines</div>
-        <div class="cta">
-            <a href="/playground/" class="btn btn-primary">Try the Playground</a>
-            <a href="https://github.com/bbenchoff/StarCPlayground" class="btn btn-secondary">View on GitHub</a>
+        <div class="hero-content">
+            <h2>Write once. Run on 4,096 processors.</h2>
+            <p>A C-like language for programming 4,096 processors arranged in a 12-dimensional hypercube.</p>
+            <p>Designed for the Thinkin' Machine, a Connection Machine-inspired computer built from $0.25 microcontrollers.</p>
+            <div class="cta">
+                <a href="/playground/" class="btn btn-primary">LAUNCH PLAYGROUND</a>
+                <a href="https://github.com/bbenchoff/StarCPlayground" class="btn btn-secondary">VIEW ON GITHUB</a>
+            </div>
         </div>
     </div>
 
     <div class="container">
         <div class="section">
-            <h2>What is StarC?</h2>
-            <p style="text-align: center; font-size: 1.2rem; color: #555; max-width: 800px; margin: 0 auto;">
-                StarC is a C-like language for programming 4,096 processors arranged in a 12-dimensional hypercube.
-                It's designed for the <strong>Thinkin' Machine</strong>, a Connection Machine-inspired computer
-                built from $0.25 microcontrollers.
-            </p>
-
+            <h2>EXAMPLE CODE</h2>
             <div class="code-example">
-                <div class="example-title">Hello, 4096 Processors</div>
+                <div class="example-header">hello_4096.starc</div>
                 <pre><code>void main() {
   // Each processor has its own copy of 'x'
   pvar&lt;int&gt; x = pid();  // 0, 1, 2, ..., 4095
@@ -231,49 +306,49 @@
         </div>
 
         <div class="section">
-            <h2>Key Features</h2>
+            <h2>KEY FEATURES</h2>
             <div class="features">
                 <div class="feature">
-                    <h3>SPMD Execution</h3>
+                    <h3>SPMD EXECUTION</h3>
                     <p>Single Program, Multiple Data. All 4,096 processors run the same code with different data. Write once, execute massively parallel.</p>
                 </div>
                 <div class="feature">
-                    <h3>Explicit Communication</h3>
-                    <p>No hidden costs. All communication happens in <code>exchange { }</code> blocks with bounded latency and zero collisions.</p>
+                    <h3>EXPLICIT COMMUNICATION</h3>
+                    <p>No hidden costs. All communication happens in exchange blocks with bounded latency and zero collisions.</p>
                 </div>
                 <div class="feature">
-                    <h3>Hypercube Topology</h3>
+                    <h3>HYPERCUBE TOPOLOGY</h3>
                     <p>12-dimensional hypercube with deterministic routing. Neighbor exchanges, reductions, and scans map directly to hardware.</p>
                 </div>
                 <div class="feature">
-                    <h3>Masked Execution</h3>
-                    <p>Use <code>where()</code> blocks to run code on a subset of processors. Divergent control flow without branches.</p>
+                    <h3>MASKED EXECUTION</h3>
+                    <p>Use where() blocks to run code on a subset of processors. Divergent control flow without branches.</p>
                 </div>
                 <div class="feature">
-                    <h3>Type Safety</h3>
-                    <p>Distinct types for per-processor (<code>pvar&lt;T&gt;</code>) and shared (<code>T</code>) variables. Catches parallelism bugs at compile time.</p>
+                    <h3>TYPE SAFETY</h3>
+                    <p>Distinct types for per-processor (pvar) and shared variables. Catches parallelism bugs at compile time.</p>
                 </div>
                 <div class="feature">
-                    <h3>Deterministic</h3>
+                    <h3>DETERMINISTIC</h3>
                     <p>No race conditions. No deadlocks. TDMA scheduling makes every operation predictable and repeatable.</p>
                 </div>
             </div>
         </div>
 
         <div class="section">
-            <h2>Why StarC?</h2>
-            <div style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; color: #555;">
-                <p style="margin-bottom: 20px;">
-                    <strong>This isn't a GPU.</strong> GPUs have thousands of threads with shared memory. StarC has
+            <h2>WHY STARC?</h2>
+            <div class="comparison">
+                <p>
+                    <strong>THIS ISN'T A GPU.</strong> GPUs have thousands of threads with shared memory. StarC has
                     thousands of processors with explicit communication. You don't hide latency—you design algorithms
                     that use the hypercube topology.
                 </p>
-                <p style="margin-bottom: 20px;">
-                    <strong>This isn't MPI.</strong> There's no <code>send(dest, msg)</code>. Communication is symmetric
+                <p>
+                    <strong>THIS ISN'T MPI.</strong> There's no send(dest, msg). Communication is symmetric
                     (everyone exchanges with neighbors) and deterministic (bounded latency, no collisions).
                 </p>
                 <p>
-                    <strong>This is data-parallel computing.</strong> Inspired by the Connection Machine CM-1, StarC
+                    <strong>THIS IS DATA-PARALLEL COMPUTING.</strong> Inspired by the Connection Machine CM-1, StarC
                     brings 1980s supercomputer thinking to modern hardware. Write topology-aware code, and the machine
                     executes it predictably.
                 </p>
@@ -281,13 +356,10 @@
         </div>
 
         <div class="section">
-            <h2>Get Started</h2>
-            <div style="text-align: center;">
-                <p style="font-size: 1.2rem; color: #555; margin-bottom: 30px;">
-                    Try the browser-based playground to see 4,096 processors in action
-                </p>
-                <a href="/playground/" class="btn btn-primary" style="font-size: 1.2rem; padding: 18px 40px;">
-                    Launch Playground →
+            <h2>GET STARTED</h2>
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="/playground/" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 35px;">
+                    LAUNCH PLAYGROUND
                 </a>
             </div>
         </div>
@@ -295,12 +367,14 @@
 
     <footer>
         <p>
-            <a href="https://github.com/bbenchoff/StarCPlayground">GitHub</a> ·
-            <a href="https://bbenchoff.github.io/">Blog</a> ·
-            Built by Brian Benchoff
+            <a href="https://github.com/bbenchoff/StarCPlayground">GITHUB</a> |
+            <a href="https://bbenchoff.github.io/">BLOG</a>
         </p>
-        <p style="margin-top: 10px; font-size: 0.9rem; color: #a0aec0;">
-            Inspired by the Connection Machine CM-1 and Danny Hillis's vision of massively parallel computing.
+        <p style="margin-top: 15px; font-size: 0.85rem;">
+            INSPIRED BY THE CONNECTION MACHINE CM-1 AND DANNY HILLIS'S VISION OF MASSIVELY PARALLEL COMPUTING
+        </p>
+        <p style="margin-top: 10px; font-size: 0.85rem;">
+            BUILT BY BRIAN BENCHOFF
         </p>
     </footer>
 </body>
