@@ -344,21 +344,24 @@
                 const response = await fetch('https://raw.githubusercontent.com/bbenchoff/bbenchoff.github.io/main/pages/StarC.md');
                 const markdown = await response.text();
 
-                // Remove frontmatter and style block from markdown
+                // Remove frontmatter, style block, and Jekyll TOC widget from markdown
                 let cleanMarkdown = markdown.replace(/^---[\s\S]*?---\n/, '');
                 cleanMarkdown = cleanMarkdown.replace(/<style>[\s\S]*?<\/style>\n/, '');
+                cleanMarkdown = cleanMarkdown.replace(/<div class="tm-layout">[\s\S]*?<\/aside>\n/m, '');
+                cleanMarkdown = cleanMarkdown.replace(/<div class="tm-article" markdown="1">\n/, '');
+                cleanMarkdown = cleanMarkdown.replace(/<div class="starc-header">[\s\S]*?<\/div>\n/, '');
 
                 // Parse markdown
                 const html = marked.parse(cleanMarkdown);
                 document.getElementById('content').innerHTML = html;
 
-                // Fix image URLs - rewrite relative paths to point to GitHub repo
+                // Fix image URLs - rewrite paths to point to bbenchoff.github.io
                 const images = document.querySelectorAll('.content img');
                 images.forEach(img => {
                     const src = img.getAttribute('src');
-                    if (src && !src.startsWith('http')) {
-                        // Rewrite relative image paths to GitHub raw URLs
-                        img.src = `https://raw.githubusercontent.com/bbenchoff/bbenchoff.github.io/main/pages/${src}`;
+                    if (src && src.startsWith('/images/')) {
+                        // Rewrite /images/ paths to bbenchoff.github.io
+                        img.src = `https://bbenchoff.github.io${src}`;
                     }
                 });
 
