@@ -117,7 +117,7 @@
         .content {
             margin-left: 280px;
             padding: 40px;
-            max-width: 900px;
+            max-width: 1200px;
             background: #fff;
             min-height: 100%;
             flex: 1;
@@ -230,6 +230,14 @@
             text-decoration: underline;
         }
 
+        .content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px 0;
+            border: 2px solid #333;
+        }
+
         .mobile-menu-btn {
             display: none;
             position: fixed;
@@ -263,7 +271,14 @@
 
             .content {
                 margin-left: 0;
-                padding: 20px;
+                padding: 15px;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .content pre {
+                padding: 12px;
+                font-size: 0.8rem;
             }
 
             .mobile-menu-btn {
@@ -336,6 +351,16 @@
                 // Parse markdown
                 const html = marked.parse(cleanMarkdown);
                 document.getElementById('content').innerHTML = html;
+
+                // Fix image URLs - rewrite relative paths to point to GitHub repo
+                const images = document.querySelectorAll('.content img');
+                images.forEach(img => {
+                    const src = img.getAttribute('src');
+                    if (src && !src.startsWith('http')) {
+                        // Rewrite relative image paths to GitHub raw URLs
+                        img.src = `https://raw.githubusercontent.com/bbenchoff/bbenchoff.github.io/main/pages/${src}`;
+                    }
+                });
 
                 // Generate TOC
                 generateTOC();
