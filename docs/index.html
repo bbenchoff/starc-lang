@@ -160,9 +160,14 @@
         .content h1 {
             font-size: 2.5rem;
             color: #1a1a1a;
-            margin-bottom: 10px;
+            margin-top: 60px;
+            margin-bottom: 30px;
             border-bottom: 3px solid #0066cc;
             padding-bottom: 15px;
+        }
+
+        .content h1:first-of-type {
+            margin-top: 0;
         }
 
         .content h2 {
@@ -265,11 +270,15 @@
             text-decoration: underline;
         }
 
+        .content hr {
+            display: none;
+        }
+
         .content img {
             max-width: 100%;
             height: auto;
             display: block;
-            margin: 20px 0;
+            margin: 20px auto;
             border: 2px solid #333;
         }
 
@@ -448,8 +457,9 @@
                 cleanMarkdown = cleanMarkdown.replace(/<div class="tm-layout">[\s\S]*?<\/aside>\n/m, '');
                 cleanMarkdown = cleanMarkdown.replace(/<div class="tm-article" markdown="1">\n/, '');
                 cleanMarkdown = cleanMarkdown.replace(/<div class="starc-header">[\s\S]*?<\/div>\n/, '');
-                // Remove part headers with logos (e.g., "Part I: The Machine")
-                cleanMarkdown = cleanMarkdown.replace(/---\n\s*<div class="starc-part-header">[\s\S]*?<\/div>\s*\n---\n/g, '');
+
+                // Convert part headers with logos to plain H1s
+                cleanMarkdown = cleanMarkdown.replace(/---\s*\n\s*<div class="starc-part-header">\s*<img[^>]*>\s*<h1>(.*?)<\/h1>\s*<\/div>\s*\n\s*---/g, '# $1');
 
                 // Parse markdown
                 const html = marked.parse(cleanMarkdown);
