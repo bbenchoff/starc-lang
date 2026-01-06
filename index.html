@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StarC - Data-Parallel Programming for Hypercubes</title>
+    <link rel="icon" type="image/svg+xml" href="/img/logo2.svg">
     <style>
         * {
             margin: 0;
@@ -225,21 +226,26 @@
 
         @media (max-width: 768px) {
             .hero-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+            }
+            .logo {
+                max-width: 120px;
+                margin: 0 auto;
+                order: -1;
+            }
+            .hero-text {
+                text-align: center;
             }
             .hero-text h1 {
                 font-size: 2.5rem;
             }
-            .logo {
-                max-width: 200px;
-                margin: 0 auto;
+            .hero-text .cta {
+                justify-content: center;
             }
             .features {
                 grid-template-columns: 1fr;
-            }
-            .cta {
-                flex-direction: column;
             }
             .btn {
                 text-align: center;
