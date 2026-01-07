@@ -128,33 +128,9 @@
         .content {
             margin-left: 280px;
             padding: 40px;
-            max-width: 1200px;
             background: #fff;
             min-height: 100%;
             flex: 1;
-        }
-
-        .doc-header {
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 30px;
-            align-items: center;
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 3px solid #0066cc;
-        }
-
-        .doc-header img {
-            width: 100%;
-            height: auto;
-            border: none !important;
-            margin: 0;
-        }
-
-        .doc-header h1 {
-            font-size: 2.5rem;
-            color: #1a1a1a;
-            margin: 0;
         }
 
         .content h1 {
@@ -182,7 +158,7 @@
             border-bottom: 3px solid #0066cc;
         }
 
-        .starc-part-header:first-of-type {
+        .content > .starc-part-header:first-child {
             margin-top: 0;
         }
 
@@ -507,15 +483,7 @@
                 // Parse markdown
                 const html = marked.parse(cleanMarkdown);
 
-                // Add doc header with logo and title
-                const docHeader = `
-                    <div class="doc-header">
-                        <img src="/img/logo2.svg" alt="StarC Logo">
-                        <h1>StarC: A Parallel C for Hypercube Computers</h1>
-                    </div>
-                `;
-
-                document.getElementById('content').innerHTML = docHeader + html;
+                document.getElementById('content').innerHTML = html;
 
                 // Fix image URLs
                 const images = document.querySelectorAll('.content img');
@@ -599,11 +567,6 @@
             toc.innerHTML = '';
 
             headings.forEach((heading, index) => {
-                // Skip the doc header h1
-                if (heading.closest('.doc-header')) {
-                    return;
-                }
-
                 // Generate ID if not present
                 if (!heading.id) {
                     const id = heading.textContent
