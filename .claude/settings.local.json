@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(npm install:*)",
-      "Bash(node build-docs.js)"
+      "Bash(node build-docs.js)",
+      "WebFetch(domain:starc-lang.org)"
     ]
   }
 }
