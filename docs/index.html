@@ -576,7 +576,7 @@
       ┌────┴────┐     ┌────┴────┐     ┌────┴────┐
       │  Slice  │     │  Slice  │     │  Slice  │     (×16 per plane)
       │Controller│    │Controller│    │Controller│
-      └────┬────��     └────┬────┘     └────┬────┘
+      └────┬────┘     └────┬────┘     └────┬────┘
            │               │               │
        ┌───┴───┐       ┌───┴───┐       ┌───┴───┐
        │ Nodes │       │ Nodes │       │ Nodes │      (×16 per slice)
@@ -1281,17 +1281,17 @@ led_set(active ? 255 : 0);
 <h2 id="chapter-7-patterns">Chapter 7: Patterns</h2>
 <p>The following goes through examples from the StarC Playground, demonstrating the why and how everything in StarC works. Topics covered for each example:</p>
 <ul>
-<li>Mandelbrot Set - Pure compute among 4096 processors</li>
-<li>Dimension Walk - Direct hypercube addressing (<code>coord()</code>, <code>nbr()</code> on all 12 dimensions)</li>
-<li>Bitonic Sort - Topology-aware algorithm (dimension = log₂, hypercube structure dictates algorithm)</li>
-<li>Heat Equation - Stencil operations (<code>news()</code>), global convergence detection (<code>reduce_max()</code>), conditional participation with identity values</li>
-<li>Global Statistics - Pipelined reductions (multiple reduce_* in single exchange block share superframe bandwidth)</li>
-<li>Parallel Prefix - Exclusive vs. inclusive scans (<code>scan_sum()</code> vs <code>scan_sum_inclusive()</code>)</li>
-<li>Stream Compaction - Practical application of prefix sum (computing destination addresses)</li>
-<li>NEWS Blur - Basic 4-neighbor stencil, grid topology (<code>news()</code>)</li>
-<li>Conway&#39;s Game of Life - Complex stencil (8 neighbors via two exchange blocks for diagonals)</li>
-<li>Double-Buffered Stencil - Asynchronous communication (exchange_async/exchange_wait) for overlapping compute and communication</li>
-<li>Random and Pleasing (LFSR) - Embarrassingly parallel computation (replicated scalar state, zero communication, independent per-processor computation)</li>
+<li><a href="#mandelbrot-set">Mandelbrot Set</a> - Pure compute among 4096 processors</li>
+<li><a href="#dimension-walk">Dimension Walk</a> - Direct hypercube addressing (<code>coord()</code>, <code>nbr()</code> on all 12 dimensions)</li>
+<li><a href="#bitonic-sort">Bitonic Sort</a> - Topology-aware algorithm (dimension = log₂, hypercube structure dictates algorithm)</li>
+<li><a href="#heat-equation">Heat Equation</a> - Stencil operations (<code>news()</code>), global convergence detection (<code>reduce_max()</code>), conditional participation with identity values</li>
+<li><a href="#global-statistics">Global Statistics</a> - Pipelined reductions (multiple reduce_* in single exchange block share superframe bandwidth)</li>
+<li><a href="#parallel-prefix-exclusive-and-inclusive">Parallel Prefix</a> - Exclusive vs. inclusive scans (<code>scan_sum()</code> vs <code>scan_sum_inclusive()</code>)</li>
+<li><a href="#stream-compaction">Stream Compaction</a> - Practical application of prefix sum (computing destination addresses)</li>
+<li><a href="#news-blur">NEWS Blur</a> - Basic 4-neighbor stencil, grid topology (<code>news()</code>)</li>
+<li><a href="#conway39s-game-of-life">Conway&#39;s Game of Life</a> - Complex stencil (8 neighbors via two exchange blocks for diagonals)</li>
+<li><a href="#double-buffered-stencil">Double-Buffered Stencil</a> - Asynchronous communication (exchange_async/exchange_wait) for overlapping compute and communication</li>
+<li><a href="#random-and-pleasing">Random and Pleasing</a> - Embarrassingly parallel computation (replicated scalar state, zero communication, independent per-processor computation)</li>
 </ul>
 <p>These examples provide enough context to StarC that you should be able to understand the language after following these examples. </p>
 <p>If you&#39;d like to just <em>run</em> these examples, look at the saved examples on the StarC Playground.</p>
