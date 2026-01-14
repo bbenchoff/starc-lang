@@ -1441,7 +1441,7 @@ led_set(brightness);
 <h3 id="plasma">Plasma</h3>
 <p>This is a classic demoscene pattern, documented very well <a href="https://lodev.org/cgtutor/plasma.html">on this page</a>. The idea is to create a lava lamp-like pattern across the LED panel. This is a per-CPU compute with no messaging. Like the Mandelbrot example above it&#39;s only an example of a cluster of microcontrollers, not the communication <em>between</em> microcontrollers.</p>
 <p><img src="https://bbenchoff.github.io/images/StarC/Plasma.gif" alt="Animated gif of the Plasma demo"></p>
-<p>The code is relatively simple, just iterate over three sine waves and plot the amplitude as brightness. The trick for this demo is the scalar array for the sine look up table. This scalar array is saved across all microcontrollers in the cluster:</p>
+<p>The code is relatively simple, just iterate over four sine waves and plot the amplitude as brightness. The trick for this demo is the scalar array for the sine look up table. This scalar array is saved across all microcontrollers in the cluster:</p>
 <pre><code class="language-c">int sine[256];
   sine[0]=128; sine[1]=131; sine[2]=134; sine[3]=137; sine[4]=140; sine[5]=143; sine[6]=146; sine[7]=149;
   sine[8]=152; sine[9]=155; sine[10]=158; sine[11]=162; sine[12]=165; sine[13]=167; sine[14]=170; sine[15]=173;
@@ -1450,7 +1450,18 @@ led_set(brightness);
   sine[32]=218; sine[33]=220; sine[34]=222; sine[35]=224; sine[36]=226; sine[37]=228; sine[38]=230; sine[39]=232;
   sine[40]=234; sine[41]=235; sine[42]=237; sine[43]=238; sine[44]=240; sine[45]=241; sine[46]=243; sine[47]=244;
 </code></pre>
-<p>Each microcontroller gets a copy of this array and performs it&#39;s own lookup while it&#39;s running. The only difference between the microcontrollers is their <code>pid()</code> address, which is used to create the X and Y axes for the display. Consider this an example of, &#39;this is just regular C&#39; along with SPMD programming. The full listing is available below:</p>
+<p>The sine lookup table is an artifact of the StarC playground. The actual hardware uses RISC-V cores with floating-point units (roughly ARM Cortex-M3/M4 equivalent), so real StarC programs can use <code>sin()</code> from <code>math.h</code> directly. The StarC Playground, however, is built on JavaScript and doesn&#39;t support math libraries, forcing us to use a lookup table.</p>
+<p>This actually gives us a window into olden-time demoscene techniques. Before FPUs were common, this is how the old heads did it. On cheaper microcontrollers without FPUs, this is still how you&#39;d do it today. As a bonus, it also demonstrates the difference between scalar and <code>pvar</code>. </p>
+<p>Each microcontroller gets a copy of this array and performs its own lookup while it&#39;s running. The only difference between the microcontrollers is their <code>pid()</code> address, which is used to create the X and Y axes for the display. Consider this an example of, &#39;this is just regular C&#39; along with SPMD programming. </p>
+<p><strong>How This Works</strong></p>
+<p>The plasma effect combines four sine wave patterns, each varying across space and time:</p>
+<pre><code class="language-c">  pvar&lt;int&gt; v1 = sine[(px * 8 + t * 2) &amp; 255];  // Horizontal waves
+  pvar&lt;int&gt; v2 = sine[(py * 8 + t * 3) &amp; 255];  // Vertical waves
+  pvar&lt;int&gt; v3 = sine[((px + py) * 6 + t * 2) &amp; 255];  // Diagonal waves
+  pvar&lt;int&gt; v4 = sine[(dist + t * 4) &amp; 255];  // Radial waves
+</code></pre>
+<p>Each processor computes its own index into the shared sine[] array using its position (px, py) and the current frame counter (t). The &amp; 255 wraps the index (equivalent to modulo 256) to keep it within the lookup table bounds. All 4,096 processors simultaneously read from the same scalar array, but each with a different index. Processor (0,0) reads <code>sine[frame*2]</code>, processor (32,32) reads a completely different entry, and processor (63,63) yet another. The four patterns are averaged together, creating interference patterns that flow and pulse as frame() advances each iteration.</p>
+<p>The full listing is available below:</p>
 <!-- COLLAPSIBLE -->
 <pre><code class="language-c">// Classic Demoscene Plasma Effect
 // Based on lodev.org/cgtutor/plasma.html
