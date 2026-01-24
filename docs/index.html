@@ -577,7 +577,7 @@
       ┌────┴────┐     ┌────┴────┐     ┌────┴────┐
       │  Slice  │     │  Slice  │     │  Slice  │     (×16 per plane)
       │Controller│    │Controller│    │Controller│
-      └────┬────┘     └────┬────┘     └────┬────┘
+      └────┬────��     └────┬────┘     └────┬────┘
            │               │               │
        ┌───┴───┐       ┌───┴───┐       ┌───┴───┐
        │ Nodes │       │ Nodes │       │ Nodes │      (×16 per slice)
@@ -1324,7 +1324,7 @@ void main() {
   pvar&lt;int&gt; zy = cy;
   pvar&lt;int&gt; iter = 1;  // Everyone gets at least 1 iteration
 
-  // Iterate z = z�� + c up to 32 times
+  // Iterate z = z² + c up to 32 times
   for (int i = 1; i &lt; 32; i = i + 1) {
     pvar&lt;int&gt; zx2 = (zx * zx) / 256;
     pvar&lt;int&gt; zy2 = (zy * zy) / 256;
