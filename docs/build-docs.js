@@ -32,6 +32,10 @@ function cleanMarkdown(markdown) {
     clean = clean.replace(/---\s*\n(\s*<div class="starc-part-header">)/g, '$1');
     clean = clean.replace(/(<\/div>)\s*\n---/g, '$1');
 
+    // Remove "back to main project page" footer
+    clean = clean.replace(/\[back to main project page\]\(.*?\)\s*/gi, '');
+    clean = clean.replace(/\*\*main\*\*\s*/gi, '');
+
     return clean;
 }
 

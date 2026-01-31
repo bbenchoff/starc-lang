@@ -577,7 +577,7 @@
       ┌────┴────┐     ┌────┴────┐     ┌────┴────┐
       │  Slice  │     │  Slice  │     │  Slice  │     (×16 per plane)
       │Controller│    │Controller│    │Controller│
-      └────┬────┘     └────┬────┘     └────┬────┘
+      └────┬────��     └────┬────┘     └────┬────┘
            │               │               │
        ┌───┴───┐       ┌───┴───┐       ┌───┴───┐
        │ Nodes │       │ Nodes │       │ Nodes │      (×16 per slice)
@@ -1347,7 +1347,9 @@ void main() {
   led_set(brightness);
 }
 </code></pre>
-<!-- COLLAPSIBLE -->
+                </div>
+            </div>
+        
 
 <p>To describe this code, for this first example I&#39;m going to compare this to <em>serial</em> programming. As in, we have a single microcontroller that&#39;s controlling a 64x64 array of LEDs. The traditional way you render a Mandelbrot set in C looks like this:</p>
 <pre><code class="language-c">  // Serial Mandelbrot - One pixel at a time
@@ -1462,8 +1464,14 @@ led_set(brightness);
 </code></pre>
 <p>Each processor computes its own index into the shared sine[] array using its position (px, py) and the current frame counter (t). The &amp; 255 wraps the index (equivalent to modulo 256) to keep it within the lookup table bounds. All 4,096 processors simultaneously read from the same scalar array, but each with a different index. Processor (0,0) reads <code>sine[frame*2]</code>, processor (32,32) reads a completely different entry, and processor (63,63) yet another. The four patterns are averaged together, creating interference patterns that flow and pulse as frame() advances each iteration.</p>
 <p>The full listing is available below:</p>
-<!-- COLLAPSIBLE -->
-<pre><code class="language-c">// Classic Demoscene Plasma Effect
+
+            <div class="code-block-wrapper collapsible">
+                <div class="code-block-header">
+                    <span class="code-block-title">Code Example</span>
+                    <span class="code-block-toggle">Show Code</span>
+                </div>
+                <div class="code-block-content">
+                    <pre><code class="language-c">// Classic Demoscene Plasma Effect
 // Based on lodev.org/cgtutor/plasma.html
 // Combines multiple sine waves for organic flowing patterns
 
@@ -1534,13 +1542,21 @@ void main() {
   }
 }
 </code></pre>
-<!-- COLLAPSIBLE -->
+                </div>
+            </div>
+        
 
 <h3 id="dimension-walk">Dimension Walk</h3>
 <p>Pure hypercube. Uses <code>coord(dim)</code>, <code>nbr()</code> across all 12 dimensions.</p>
 <p><img src="https://bbenchoff.github.io/images/StarC/DimensionWalk.gif" alt="Animated gif of the Dimension Walk"></p>
-<!-- COLLAPSIBLE -->
-<pre><code class="language-c">// Dimension Walk - Hamiltonian path through 12D hypercube
+
+            <div class="code-block-wrapper collapsible">
+                <div class="code-block-header">
+                    <span class="code-block-title">Code Example</span>
+                    <span class="code-block-toggle">Show Code</span>
+                </div>
+                <div class="code-block-content">
+                    <pre><code class="language-c">// Dimension Walk - Hamiltonian path through 12D hypercube
 // Uses coord() to build position from dimension bits
 // Uses nbr() to highlight the 12-dimensional neighborhood
 // Gray code ensures each step moves to exactly 1 neighbor
@@ -2522,7 +2538,6 @@ void star_clear_errors(void)
 <p>C was created as a thin wrapper over the PDP-11, or a PDP-7, depending on how far back you want to go. StarC is a thin wrapper over a hypercube. It&#39;s not an abstraction; it&#39;s the language you use to program this specific piece of hardware.</p>
 <p>StarC is not meant to be the perfect language. In fact, the TDMA protocol used for communication in this machine can be much more expressive than StarC allows. Multi-hop routing is possible with the TDMA protocol, but it is unimplemented in StarC simply because the interesting algorithms made possible in a hypercube computer simply do not need multi-hop routing. But what <em>is</em> implemented allows the machine to be programmed, and those interesting algorithms to be expressed cleanly. That&#39;s what StarC is for, not to be the perfect language, but to be the language that makes this machine programmable.</p>
 <hr>
-<p><a href="ThinkinMachine.html">back to main project page</a></p>
 <p><a href="../">main</a></p>
 </div><!-- /.tm-article -->
 </div><!-- /.tm-layout -->
