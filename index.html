@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StarC - Data-Parallel Programming for Hypercubes</title>
-    <link rel="icon" type="image/svg+xml" href="/img/logo2.svg">
+    <link rel="icon" type="image/svg+xml" href="img/logo2.svg">
     <style>
         * {
             margin: 0;
@@ -281,6 +281,42 @@
             color: #999;
         }
 
+        .known-to {
+            margin-top: 40px;
+        }
+
+        .known-to-label {
+            font-size: 0.85rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-wall {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 24px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .logo-wall .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+        }
+
+        .logo-wall .brand img {
+            height: 40px;
+            width: auto;
+            max-width: 150px;
+            opacity: 0.7;
+        }
+
         @media (max-width: 768px) {
             .hero-content {
                 display: flex;
@@ -326,7 +362,7 @@
                     <a href="https://github.com/bbenchoff/Starc-tools" class="btn btn-secondary">Get The Tools</a>
                 </div>
             </div>
-            <img src="/img/logo2.svg" alt="StarC Logo" class="logo">
+            <img src="img/logo2.svg" alt="StarC Logo" class="logo">
         </div>
     </div>
 
@@ -412,7 +448,7 @@
             <div class="testimonials">
                 <div class="testimonial">
                     <div class="testimonial-avatar">
-                        <img src="/img/Janet.jpg" alt="Janet Riely">
+                        <img src="img/Janet.jpg" alt="Janet Riely">
                     </div>
                     <div class="testimonial-quote">"You should believe this social proof, because as a VC I obviously know the best technology. We just funded a hotel on the moon."</div>
                     <div class="testimonial-author">Janet Riely</div>
@@ -420,7 +456,7 @@
                 </div>
                 <div class="testimonial">
                     <div class="testimonial-avatar">
-                        <img src="/img/Jeff.jpg" alt="Jeff Tooms">
+                        <img src="img/Jeff.jpg" alt="Jeff Tooms">
                     </div>
                     <div class="testimonial-quote">"I tell founders they need an office between a Sweetgreen and a Blue Bottle Coffee."</div>
                     <div class="testimonial-author">Jeff Tooms</div>
@@ -428,11 +464,22 @@
                 </div>
                 <div class="testimonial">
                     <div class="testimonial-avatar">
-                        <img src="/img/Dave.png" alt="Dave Blank">
+                        <img src="img/Dave.png" alt="Dave Blank">
                     </div>
                     <div class="testimonial-quote">"Extremely promising. Maybe even 101 billboard successful."</div>
                     <div class="testimonial-author">Dave Blank</div>
                     <div class="testimonial-title">Partner, Andreessen Horowitz</div>
+                </div>
+            </div>
+            <div class="known-to">
+                <div class="known-to-label">Known to the following companies:</div>
+                <div class="logo-wall">
+                    <div class="brand"><img src="img/logos/nvidia.svg" alt="NVIDIA"></div>
+                    <div class="brand"><img src="img/logos/openai.svg" alt="OpenAI"></div>
+                    <div class="brand"><img src="img/logos/anthropic.svg" alt="Anthropic"></div>
+                    <div class="brand"><img src="img/logos/googledeepmind.svg" alt="Google DeepMind"></div>
+                    <div class="brand"><img src="img/logos/meta.svg" alt="Meta"></div>
+                    <div class="brand"><img src="img/logos/xai.svg" alt="xAI"></div>
                 </div>
             </div>
         </div>
