@@ -296,24 +296,30 @@
         }
 
         .logo-wall {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .logo-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             align-items: center;
-            justify-items: center;
+            gap: 50px;
         }
 
         .logo-wall .brand {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 12px;
+            padding: 10px;
         }
 
         .logo-wall .brand img {
-            height: 40px;
+            height: 64px;
             width: auto;
-            max-width: 150px;
+            max-width: 200px;
             opacity: 0.7;
         }
 
@@ -474,12 +480,19 @@
             <div class="known-to">
                 <div class="known-to-label">Known to the following companies:</div>
                 <div class="logo-wall">
-                    <div class="brand"><img src="img/logos/nvidia.svg" alt="NVIDIA"></div>
-                    <div class="brand"><img src="img/logos/openai.svg" alt="OpenAI"></div>
-                    <div class="brand"><img src="img/logos/anthropic.svg" alt="Anthropic"></div>
-                    <div class="brand"><img src="img/logos/googledeepmind.svg" alt="Google DeepMind"></div>
-                    <div class="brand"><img src="img/logos/meta.svg" alt="Meta"></div>
-                    <div class="brand"><img src="img/logos/xai.svg" alt="xAI"></div>
+                    <div class="logo-row">
+                        <div class="brand"><img src="img/logos/nvidia.svg" alt="NVIDIA"></div>
+                        <div class="brand"><img src="img/logos/openai.svg" alt="OpenAI"></div>
+                        <div class="brand"><img src="img/logos/anthropic.svg" alt="Anthropic"></div>
+                        <div class="brand"><img src="img/logos/googledeepmind.svg" alt="Google DeepMind"></div>
+                        <div class="brand"><img src="img/logos/meta.svg" alt="Meta"></div>
+                    </div>
+                    <div class="logo-row">
+                        <div class="brand"><img src="img/logos/xai.svg" alt="xAI"></div>
+                        <div class="brand"><img src="img/logos/mistral.svg" alt="Mistral AI"></div>
+                        <div class="brand"><img src="img/logos/huggingface.svg" alt="Hugging Face"></div>
+                        <div class="brand"><img src="img/logos/perplexity.svg" alt="Perplexity"></div>
+                    </div>
                 </div>
             </div>
         </div>
