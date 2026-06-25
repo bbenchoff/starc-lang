@@ -2,13 +2,56 @@ const https = require('https');
 const fs = require('fs');
 const { marked } = require('marked');
 
-// Fetch StarC.md from GitHub
+// Fetch StarC.md from the (private) bbenchoff.github.io repo.
+//
+// The repo is private, so raw.githubusercontent.com 404s for anonymous
+// clients. The old unauthenticated https.get swallowed that 404 and baked the
+// literal "404: Not Found" body into the published docs. We now use the
+// authenticated Contents API and fail loudly on any non-200 so a fetch problem
+// breaks the build instead of silently publishing garbage.
+//
+// Local testing: set STARC_MD_FILE to a local StarC.md path to skip the fetch.
 function fetchMarkdown() {
+    const localFile = process.env.STARC_MD_FILE;
+    if (localFile) {
+        console.log(`Reading StarC.md from local file: ${localFile}`);
+        return Promise.resolve(fs.readFileSync(localFile, 'utf8'));
+    }
+
+    const token = process.env.DOCS_SOURCE_TOKEN;
+    if (!token) {
+        return Promise.reject(new Error(
+            'DOCS_SOURCE_TOKEN is not set. bbenchoff.github.io is private, so the StarC.md ' +
+            'fetch must be authenticated. Set DOCS_SOURCE_TOKEN to a PAT with read access to ' +
+            'bbenchoff.github.io (or set STARC_MD_FILE to a local path for offline builds).'
+        ));
+    }
+
+    const options = {
+        hostname: 'api.github.com',
+        path: '/repos/bbenchoff/bbenchoff.github.io/contents/pages/StarC.md?ref=main',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.raw',
+            'User-Agent': 'starc-docs-builder',
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+    };
+
     return new Promise((resolve, reject) => {
-        https.get('https://raw.githubusercontent.com/bbenchoff/bbenchoff.github.io/main/pages/StarC.md', (res) => {
+        https.get(options, (res) => {
             let data = '';
             res.on('data', (chunk) => data += chunk);
-            res.on('end', () => resolve(data));
+            res.on('end', () => {
+                if (res.statusCode !== 200) {
+                    reject(new Error(
+                        `GitHub Contents API returned HTTP ${res.statusCode} for pages/StarC.md. ` +
+                        `Check the token's access to bbenchoff.github.io. Body: ${data.slice(0, 200)}`
+                    ));
+                    return;
+                }
+                resolve(data);
+            });
         }).on('error', reject);
     });
 }
@@ -16,6 +59,12 @@ function fetchMarkdown() {
 // Clean markdown (same as client-side logic)
 function cleanMarkdown(markdown) {
     let clean = markdown;
+
+    // Normalize CRLF -> LF first. StarC.md is saved with Windows line endings,
+    // and every pattern below is anchored on a bare "\n" (e.g. "---\n",
+    // "</style>\n", "</aside>\n"); without this, none of them match and the
+    // frontmatter, <style> block, and TOC wrappers leak into the output.
+    clean = clean.replace(/\r\n/g, '\n');
 
     // Remove frontmatter
     clean = clean.replace(/^---[\s\S]*?---\n/, '');
@@ -27,6 +76,12 @@ function cleanMarkdown(markdown) {
     clean = clean.replace(/<div class="tm-layout">[\s\S]*?<\/aside>\n/m, '');
     clean = clean.replace(/<div class="tm-article" markdown="1">\n/, '');
     clean = clean.replace(/<div class="starc-header">[\s\S]*?<\/div>\n/, '');
+
+    // Remove the orphan closing tags of the tm-article / tm-layout wrappers.
+    // Their opening tags are stripped above, but the matching closers live at
+    // the very end of StarC.md, so without this they leak as stray </div>s that
+    // unbalance the template's DOM.
+    clean = clean.replace(/<\/div><!--\s*\/\.tm-(?:article|layout)\s*-->\n?/g, '');
 
     // Remove --- dividers around part headers
     clean = clean.replace(/---\s*\n(\s*<div class="starc-part-header">)/g, '$1');

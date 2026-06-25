@@ -33,6 +33,8 @@ jobs:
           npm install marked
 
       - name: Build documentation
+        env:
+          DOCS_SOURCE_TOKEN: ${{ secrets.DOCS_SOURCE_TOKEN }}
         run: |
           cd docs
           node build-docs.js
