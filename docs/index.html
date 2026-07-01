@@ -577,7 +577,7 @@
       ┌────┴────┐     ┌────┴────┐     ┌────┴────┐
       │  Slice  │     │  Slice  │     │  Slice  │     (×16 per plane)
       │Controller│    │Controller│    │Controller│
-      └────┬────┘     └────┬────┘     └────┬────┘
+      └────┬────┘     └─��──┬────┘     └────┬────┘
            │               │               │
        ┌───┴───┐       ┌───┴───┐       ┌───┴───┐
        │ Nodes │       │ Nodes │       │ Nodes │      (×16 per slice)
@@ -2304,7 +2304,7 @@ algorithm.elf (executable)
 <h3 id="compiler-settings">Compiler Settings</h3>
 <p>The toolchain enforces specific compiler settings:</p>
 <ul>
-<li><code>-fno-fast-math</code> — guarantees floating-point reproducibility in reductions/scans</li>
+<li><code>-fno-fast-math</code> ��� guarantees floating-point reproducibility in reductions/scans</li>
 <li>Standard optimization flags as appropriate for the target</li>
 </ul>
 <h3 id="backends">Backends</h3>
