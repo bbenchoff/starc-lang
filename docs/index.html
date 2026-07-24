@@ -574,7 +574,7 @@
     │  Controller │ │  Controller │ │  Controller │
     └──────┬──────┘ └──────┬──────┘ └──────┬──────┘
            │               │               │
-      ┌────┴────┐     ┌────┴────┐     ┌────┴────┐
+      ┌────┴────┐     ��────┴────┐     ┌────┴────┐
       │  Slice  │     │  Slice  │     │  Slice  │     (×16 per plane)
       │Controller│    │Controller│    │Controller│
       └────┬────┘     └────┬────┘     └────┬────┘
@@ -845,7 +845,7 @@ distance_from_center = dr*dr + dc*dc;
 <p><strong>No pointers in pvars:</strong></p>
 <pre><code class="language-c">pvar&lt;int*&gt; ptr;       // ERROR: pointers don&#39;t make sense
 </code></pre>
-<p>A pointer on processor 17 pointing to processor 42&#39;s memory is meaningless��there&#39;s no shared address space.</p>
+<p>A pointer on processor 17 pointing to processor 42&#39;s memory is meaningless—there&#39;s no shared address space.</p>
 <p><strong>No nested pvars:</strong></p>
 <pre><code class="language-c">pvar&lt;pvar&lt;int&gt;&gt; x;    // ERROR: doesn&#39;t make sense
 </code></pre>
