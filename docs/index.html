@@ -1240,7 +1240,7 @@ load_from_host(&amp;input, 1);   // Each processor gets one float
 pvar&lt;float&gt; result;
 store_to_host(&amp;result, 1);   // Each processor sends one float
 </code></pre>
-<p>Data flows through the control tree: Host ��� Machine Controller → Plane Controllers → Slice Controllers → Nodes (and reverse for store).</p>
+<p>Data flows through the control tree: Host → Machine Controller → Plane Controllers → Slice Controllers → Nodes (and reverse for store).</p>
 <p><strong>No 80-byte limit.</strong> The control tree is a separate network with different constraints. Large transfers are fine:</p>
 <pre><code class="language-c">pvar&lt;float&gt; big_array[1000];
 load_from_host(big_array, 1000);  // 4KB per processor—no problem
